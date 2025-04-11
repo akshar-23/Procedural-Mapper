@@ -41,6 +41,7 @@ This will launch the application in your default web browser.
     Once the image is in the correct folder, click the View in 3D button to load the heightmap and generate the 3D terrain view.
 
 ### Folder Structure
+
 Ensure the following folder structure:
 
 ```bash
@@ -51,8 +52,9 @@ Ensure the following folder structure:
 ```
 
 ## Technologies Used
+
 1. npm (for package management)
 
 2. Three.js (for rendering 3D graphics)
 
-HTML/CSS (for frontend UI)
+3. HTML/CSS (for frontend UI)
