@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sketch to Terrain</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <script src="/src/sketch.js" defer></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 10px;
+      }
+      canvas {
+        border: 1px solid #aaa;
+      }
+      #controls button, #controls input {
+        margin: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Sketch Your Terrain</h2>
+    <div id="controls">
+      <button onclick="setBrush('water')">Water</button>
+      <button onclick="setBrush('grass')">Grass</button>
+      <button onclick="setBrush('hill')">Hill</button>
+      <button onclick="setBrush('mountain')">Mountain</button>
+      <button onclick="blendTerrain()">Blend Terrain</button>
+      <button onclick="setMode('draw')">Draw Mode</button>
+      <button onclick="setMode('heightmap')">Heightmap Mode</button>
+      <button onclick="saveHeightmapAsImage()">Save Heightmap</button>
+      <a href="/terrain.html" target="_blank"><button>View in 3D</button></a>
+      <br>
+      <label>Brush Size: </label><input type="range" min="1" max="10" value="2" id="brushSlider" />
+    </div>
+  </body>
+</html>
