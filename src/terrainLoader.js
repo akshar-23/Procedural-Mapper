@@ -24,7 +24,7 @@ loader.load('/assets/heightmap.png', texture => {
   const material = new THREE.MeshStandardMaterial({
     color: 0x88cc88,
     displacementMap: texture,
-    displacementScale: 20,
+    displacementScale: 10,
     flatShading: true,
     side: THREE.DoubleSide
   });

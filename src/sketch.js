@@ -145,7 +145,7 @@ function generateElevationMap() {
     elevationMap[i] = [];
     for (let j = 0; j < rows; j++) {
       const base = getBaseHeight(grid[i][j]);
-      const noiseVal = noise(i * 0.1, j * 0.1) * getNoiseStrength(grid[i][j]);
+      const noiseVal = noise(i * 0.2, j * 0.2) * getNoiseStrength(grid[i][j]);
       elevationMap[i][j] = constrain(base + noiseVal, 0, 1);
     }
   }
@@ -172,17 +172,17 @@ function smoothElevationMap(iterations = 1) {
 
 function getBaseHeight(c) {
   if (colorMatch(c, colors.water)) return 0.1;
-  if (colorMatch(c, colors.grass)) return 0.5;
-  if (colorMatch(c, colors.hill)) return 0.7;
-  if (colorMatch(c, colors.mountain)) return 0.9;
+  if (colorMatch(c, colors.grass)) return 0.3;
+  if (colorMatch(c, colors.hill)) return 0.5;
+  if (colorMatch(c, colors.mountain)) return 0.6;
   return 0.5;
 }
 
 function getNoiseStrength(c) {
-  if (colorMatch(c, colors.water)) return 0.02;
-  if (colorMatch(c, colors.grass)) return 0.05;
-  if (colorMatch(c, colors.hill)) return 0.1;
-  if (colorMatch(c, colors.mountain)) return 0.15;
+  if (colorMatch(c, colors.water)) return 0.01;
+  if (colorMatch(c, colors.grass)) return 0.1;
+  if (colorMatch(c, colors.hill)) return 0.4;
+  if (colorMatch(c, colors.mountain)) return 0.75;
   return 0.05;
 }
 
