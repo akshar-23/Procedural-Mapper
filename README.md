@@ -28,28 +28,7 @@ To start the development server, run the following command in your terminal:
 npm run dev
 ```
 
-This will launch the application in your default web browser.
-
-### View the 3D Terrain
-1. **Save the Heightmap**:
-    Use the Save Heightmap button in the UI to generate and save the heightmap image.
-
-2. **Move the Heightmap Image**:
-    After saving the heightmap image, manually move it to the public/assets folder in your project directory. This is necessary because the JavaScript code accesses the image from this location.
-
-3. **View the Terrain**:
-    Once the image is in the correct folder, click the View in 3D button to load the heightmap and generate the 3D terrain view.
-
-### Folder Structure
-
-Ensure the following folder structure:
-
-```bash
-/public
-  /assets  <-- Place the saved heightmap image here
-/src
-  /...
-```
+This will launch the application in your default web browser. Draw any terrain with as much input you want. Fill the white spaces with blend terrain button. Click on view 3-D button to view in 3-D!
 
 ## Technologies Used
 
