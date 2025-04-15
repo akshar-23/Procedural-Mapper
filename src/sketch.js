@@ -124,20 +124,6 @@ function blendTerrain() {
   }
 }
 
-function saveHeightmapAsImage() {
-  generateElevationMap();
-  let img = createImage(cols, rows);
-  img.loadPixels();
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      let val = elevationMap[i][j] * 255;
-      img.set(i, j, color(val));
-    }
-  }
-  img.updatePixels();
-  img.save('heightmap', 'png');
-}
-
 function generateElevationMap() {
   elevationMap = [];
   noiseDetail(4, 0.5);
@@ -145,11 +131,11 @@ function generateElevationMap() {
     elevationMap[i] = [];
     for (let j = 0; j < rows; j++) {
       const base = getBaseHeight(grid[i][j]);
-      const noiseVal = noise(i * 0.2, j * 0.2) * getNoiseStrength(grid[i][j]);
+      const noiseVal = noise(i * 0.1, j * 0.1) * getNoiseStrength(grid[i][j]);
       elevationMap[i][j] = constrain(base + noiseVal, 0, 1);
     }
   }
-  smoothElevationMap(2); // Natural blending
+  smoothElevationMap(2);
 }
 
 function smoothElevationMap(iterations = 1) {
@@ -172,20 +158,46 @@ function smoothElevationMap(iterations = 1) {
 
 function getBaseHeight(c) {
   if (colorMatch(c, colors.water)) return 0.1;
-  if (colorMatch(c, colors.grass)) return 0.3;
-  if (colorMatch(c, colors.hill)) return 0.5;
-  if (colorMatch(c, colors.mountain)) return 0.6;
+  if (colorMatch(c, colors.grass)) return 0.5;
+  if (colorMatch(c, colors.hill)) return 0.7;
+  if (colorMatch(c, colors.mountain)) return 0.9;
   return 0.5;
 }
 
 function getNoiseStrength(c) {
-  if (colorMatch(c, colors.water)) return 0.01;
-  if (colorMatch(c, colors.grass)) return 0.1;
-  if (colorMatch(c, colors.hill)) return 0.4;
-  if (colorMatch(c, colors.mountain)) return 0.75;
+  if (colorMatch(c, colors.water)) return 0.02;
+  if (colorMatch(c, colors.grass)) return 0.05;
+  if (colorMatch(c, colors.hill)) return 0.1;
+  if (colorMatch(c, colors.mountain)) return 0.15;
   return 0.05;
 }
 
 function colorMatch(c1, c2) {
   return dist(c1[0], c1[1], c1[2], c2[0], c2[1], c2[2]) < 20;
+}
+
+// 🔥 NEW: Save heightmap as Base64 and pass to 3D
+function viewIn3D() {
+  generateElevationMap();
+
+  let img = createImage(cols, rows);
+  img.loadPixels();
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      let val = elevationMap[i][j] * 255;
+      img.set(i, j, color(val));
+    }
+  }
+  img.updatePixels();
+
+  // Draw on a temp canvas to get Base64
+  let gfx = createGraphics(cols, rows);
+  gfx.image(img, 0, 0);
+  let dataURL = gfx.canvas.toDataURL();
+
+  // Save to localStorage
+  localStorage.setItem('terrain-heightmap', dataURL);
+
+  // Open viewer
+  window.open('/terrain.html', '_blank');
 }
