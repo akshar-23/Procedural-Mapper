@@ -1,13 +1,13 @@
 let grid, elevationMap;
 let cols, rows;
-let cellSize = 7;
+let cellSize = 6.5;
 let currentColor;
 let colors;
 let mode = 'draw';
 let brushSlider, noiseSlider, smoothSlider;
 
 function setup() {
-  createCanvas(700, 700).parent(document.body);
+  createCanvas(650, 650).parent('canvas-holder');
   cols = width / cellSize;
   rows = height / cellSize;
   grid = createEmptyGrid(cols, rows);
@@ -21,23 +21,23 @@ function setup() {
 
   currentColor = colors.grass;
 
-  // Sliders
-  createP("Brush Size");
-  brushSlider = createSlider(1, 10, 2, 1);
-  createP("Noise Scale");
-  noiseSlider = createSlider(0.01, 0.2, 0.1, 0.01);
-  createP("Smoothing Passes");
-  smoothSlider = createSlider(0, 5, 2, 1);
+  createP("Brush Size").parent('ui-panel');
+  brushSlider = createSlider(1, 10, 2, 1).parent('ui-panel');
 
-  // Buttons
-  createButton("Water").mousePressed(() => setBrush('water'));
-  createButton("Grass").mousePressed(() => setBrush('grass'));
-  createButton("Hill").mousePressed(() => setBrush('hill'));
-  createButton("Mountain").mousePressed(() => setBrush('mountain'));
-  createButton("Draw Mode").mousePressed(() => setMode('draw'));
-  createButton("Heightmap Mode").mousePressed(() => setMode('heightmap'));
-  createButton("Blend Terrain").mousePressed(blendTerrain);
-  createButton("View in 3D").mousePressed(viewIn3D);
+  createP("Noise Scale").parent('ui-panel');
+  noiseSlider = createSlider(0.01, 0.2, 0.1, 0.01).parent('ui-panel');
+
+  createP("Smoothing Passes").parent('ui-panel');
+  smoothSlider = createSlider(0, 5, 2, 1).parent('ui-panel');
+
+  createButton("Water").parent('ui-panel').mousePressed(() => setBrush('water'));
+  createButton("Grass").parent('ui-panel').mousePressed(() => setBrush('grass'));
+  createButton("Hill").parent('ui-panel').mousePressed(() => setBrush('hill'));
+  createButton("Mountain").parent('ui-panel').mousePressed(() => setBrush('mountain'));
+  createButton("Draw Mode").parent('ui-panel').mousePressed(() => setMode('draw'));
+  createButton("Heightmap Mode").parent('ui-panel').mousePressed(() => setMode('heightmap'));
+  createButton("Blend Terrain").parent('ui-panel').mousePressed(blendTerrain);
+  createButton("View in 3D").parent('ui-panel').mousePressed(viewIn3D);
 }
 
 function draw() {

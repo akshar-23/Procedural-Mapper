@@ -65,9 +65,9 @@ heightTexture.onload = () => {
   const colors = [];
   for (let i = 0; i < heights.length; i++) {
     const h = heights[i];
-    if (h < 0.3) colors.push(0.2, 0.4, 0.9); // water
-    else if (h < 0.6) colors.push(0.2, 0.8, 0.3); // grass
-    else if (h < 0.8) colors.push(0.5, 0.5, 0.5); // rock
+    if (h < 0.5) colors.push(0.2, 0.4, 0.9); // water
+    else if (h < 0.7) colors.push(0.2, 0.8, 0.3); // grass
+    else if (h < 0.9) colors.push(0.5, 0.5, 0.5); // rock
     else colors.push(1.0, 1.0, 1.0); // snow
   }
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
