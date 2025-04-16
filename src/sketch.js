@@ -1,13 +1,13 @@
 let grid, elevationMap;
 let cols, rows;
-let cellSize = 5;
+let cellSize = 7;
 let currentColor;
 let colors;
 let mode = 'draw';
-let brushSlider;
+let brushSlider, noiseSlider, smoothSlider;
 
 function setup() {
-  createCanvas(500, 500).parent(document.body);
+  createCanvas(700, 700).parent(document.body);
   cols = width / cellSize;
   rows = height / cellSize;
   grid = createEmptyGrid(cols, rows);
@@ -20,7 +20,24 @@ function setup() {
   };
 
   currentColor = colors.grass;
-  brushSlider = select('#brushSlider');
+
+  // Sliders
+  createP("Brush Size");
+  brushSlider = createSlider(1, 10, 2, 1);
+  createP("Noise Scale");
+  noiseSlider = createSlider(0.01, 0.2, 0.1, 0.01);
+  createP("Smoothing Passes");
+  smoothSlider = createSlider(0, 5, 2, 1);
+
+  // Buttons
+  createButton("Water").mousePressed(() => setBrush('water'));
+  createButton("Grass").mousePressed(() => setBrush('grass'));
+  createButton("Hill").mousePressed(() => setBrush('hill'));
+  createButton("Mountain").mousePressed(() => setBrush('mountain'));
+  createButton("Draw Mode").mousePressed(() => setMode('draw'));
+  createButton("Heightmap Mode").mousePressed(() => setMode('heightmap'));
+  createButton("Blend Terrain").mousePressed(blendTerrain);
+  createButton("View in 3D").mousePressed(viewIn3D);
 }
 
 function draw() {
@@ -42,7 +59,7 @@ function drawGrid() {
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       fill(grid[i][j]);
-      stroke(200);
+      stroke(100);
       rect(i * cellSize, j * cellSize, cellSize, cellSize);
     }
   }
@@ -95,28 +112,26 @@ function setMode(m) {
 
 function blendTerrain() {
   let newGrid = JSON.parse(JSON.stringify(grid));
+
   for (let step = 0; step < 3; step++) {
     for (let i = 1; i < cols - 1; i++) {
       for (let j = 1; j < rows - 1; j++) {
         if (colorMatch(grid[i][j], [255, 255, 255])) {
-          let neighbors = {};
+          let neighbors = [];
           for (let dx = -1; dx <= 1; dx++) {
             for (let dy = -1; dy <= 1; dy++) {
-              let c = grid[i + dx][j + dy];
-              let key = c.toString();
-              neighbors[key] = (neighbors[key] || 0) + 1;
+              let ni = i + dx;
+              let nj = j + dy;
+              if (ni >= 0 && ni < cols && nj >= 0 && nj < rows) {
+                if (!colorMatch(grid[ni][nj], [255, 255, 255])) {
+                  neighbors.push(grid[ni][nj]);
+                }
+              }
             }
           }
-
-          let max = 0, selected = [255, 255, 255];
-          for (let key in neighbors) {
-            if (neighbors[key] > max && key !== '255,255,255') {
-              max = neighbors[key];
-              selected = key.split(',').map(Number);
-            }
+          if (neighbors.length > 0) {
+            newGrid[i][j] = neighbors[Math.floor(Math.random() * neighbors.length)];
           }
-
-          newGrid[i][j] = selected;
         }
       }
     }
@@ -126,16 +141,18 @@ function blendTerrain() {
 
 function generateElevationMap() {
   elevationMap = [];
-  noiseDetail(4, 0.5);
+  noiseDetail(8, 0.4);
+  const scale = noiseSlider.value();
+
   for (let i = 0; i < cols; i++) {
     elevationMap[i] = [];
     for (let j = 0; j < rows; j++) {
       const base = getBaseHeight(grid[i][j]);
-      const noiseVal = noise(i * 0.1, j * 0.1) * getNoiseStrength(grid[i][j]);
+      const noiseVal = noise(i * scale, j * scale) * getNoiseStrength(grid[i][j]);
       elevationMap[i][j] = constrain(base + noiseVal, 0, 1);
     }
   }
-  smoothElevationMap(2);
+  smoothElevationMap(smoothSlider.value());
 }
 
 function smoothElevationMap(iterations = 1) {
@@ -159,16 +176,16 @@ function smoothElevationMap(iterations = 1) {
 function getBaseHeight(c) {
   if (colorMatch(c, colors.water)) return 0.1;
   if (colorMatch(c, colors.grass)) return 0.5;
-  if (colorMatch(c, colors.hill)) return 0.7;
-  if (colorMatch(c, colors.mountain)) return 0.9;
+  if (colorMatch(c, colors.hill)) return 0.8;
+  if (colorMatch(c, colors.mountain)) return 1;
   return 0.5;
 }
 
 function getNoiseStrength(c) {
-  if (colorMatch(c, colors.water)) return 0.02;
-  if (colorMatch(c, colors.grass)) return 0.05;
-  if (colorMatch(c, colors.hill)) return 0.1;
-  if (colorMatch(c, colors.mountain)) return 0.15;
+  if (colorMatch(c, colors.water)) return 0.05;
+  if (colorMatch(c, colors.grass)) return 0.4;
+  if (colorMatch(c, colors.hill)) return 0.7;
+  if (colorMatch(c, colors.mountain)) return 0.9;
   return 0.05;
 }
 
@@ -176,10 +193,8 @@ function colorMatch(c1, c2) {
   return dist(c1[0], c1[1], c1[2], c2[0], c2[1], c2[2]) < 20;
 }
 
-// 🔥 NEW: Save heightmap as Base64 and pass to 3D
 function viewIn3D() {
   generateElevationMap();
-
   let img = createImage(cols, rows);
   img.loadPixels();
   for (let i = 0; i < cols; i++) {
@@ -189,15 +204,9 @@ function viewIn3D() {
     }
   }
   img.updatePixels();
-
-  // Draw on a temp canvas to get Base64
   let gfx = createGraphics(cols, rows);
   gfx.image(img, 0, 0);
   let dataURL = gfx.canvas.toDataURL();
-
-  // Save to localStorage
   localStorage.setItem('terrain-heightmap', dataURL);
-
-  // Open viewer
   window.open('/terrain.html', '_blank');
 }

@@ -25,15 +25,6 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(50, 100, 100);
 scene.add(light);
 
-// Load textures for different height zones
-const textureLoader = new THREE.TextureLoader();
-const textures = {
-  water: textureLoader.load('/assets/water.jpg'),
-  grass: textureLoader.load('/assets/grass.jpg'),
-  rock: textureLoader.load('/assets/rock.jpg'),
-  snow: textureLoader.load('/assets/snow.jpg'),
-};
-
 // Load heightmap as image texture from base64
 const heightTexture = new Image();
 heightTexture.src = base64;
