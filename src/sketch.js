@@ -176,15 +176,15 @@ function smoothElevationMap(iterations = 1) {
 function getBaseHeight(c) {
   if (colorMatch(c, colors.water)) return 0.1;
   if (colorMatch(c, colors.grass)) return 0.5;
-  if (colorMatch(c, colors.hill)) return 0.8;
-  if (colorMatch(c, colors.mountain)) return 1;
+  if (colorMatch(c, colors.hill)) return 0.75;
+  if (colorMatch(c, colors.mountain)) return 0.95;
   return 0.5;
 }
 
 function getNoiseStrength(c) {
   if (colorMatch(c, colors.water)) return 0.05;
   if (colorMatch(c, colors.grass)) return 0.4;
-  if (colorMatch(c, colors.hill)) return 0.7;
+  if (colorMatch(c, colors.hill)) return 0.5;
   if (colorMatch(c, colors.mountain)) return 0.9;
   return 0.05;
 }
