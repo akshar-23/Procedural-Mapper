@@ -21,23 +21,27 @@ function setup() {
 
   currentColor = colors.grass;
 
-  createP("Brush Size").parent('ui-panel');
-  brushSlider = createSlider(1, 10, 2, 1).parent('ui-panel');
+  createP("Brushes").parent('ui-panel').class('section-title');
+  createButton("Water").parent('ui-panel').class('btn btn-water').mousePressed(() => setBrush('water'));
+  createButton("Grass").parent('ui-panel').class('btn btn-grass').mousePressed(() => setBrush('grass'));
+  createButton("Hill").parent('ui-panel').class('btn btn-hill').mousePressed(() => setBrush('hill'));
+  createButton("Mountain").parent('ui-panel').class('btn btn-mountain').mousePressed(() => setBrush('mountain'));
+  
+  createP("Brush Size").parent('ui-panel').class('label');
+  brushSlider = createSlider(1, 10, 2, 1).parent('ui-panel').class('slider');
 
-  createP("Noise Scale").parent('ui-panel');
-  noiseSlider = createSlider(0.01, 0.2, 0.1, 0.01).parent('ui-panel');
+  createP("Terrain Options").parent('ui-panel').class('section-title');
+  createP("Noise Scale").parent('ui-panel').class('label');
+  noiseSlider = createSlider(0.01, 0.2, 0.1, 0.01).parent('ui-panel').class('slider');
 
-  createP("Smoothing Passes").parent('ui-panel');
-  smoothSlider = createSlider(0, 5, 2, 1).parent('ui-panel');
+  createP("Smoothing Passes").parent('ui-panel').class('label');
+  smoothSlider = createSlider(0, 5, 2, 1).parent('ui-panel').class('slider');
 
-  createButton("Water").parent('ui-panel').mousePressed(() => setBrush('water'));
-  createButton("Grass").parent('ui-panel').mousePressed(() => setBrush('grass'));
-  createButton("Hill").parent('ui-panel').mousePressed(() => setBrush('hill'));
-  createButton("Mountain").parent('ui-panel').mousePressed(() => setBrush('mountain'));
-  createButton("Draw Mode").parent('ui-panel').mousePressed(() => setMode('draw'));
-  createButton("Heightmap Mode").parent('ui-panel').mousePressed(() => setMode('heightmap'));
-  createButton("Blend Terrain").parent('ui-panel').mousePressed(blendTerrain);
-  createButton("View in 3D").parent('ui-panel').mousePressed(viewIn3D);
+  createP("Actions").parent('ui-panel').class('section-title');
+  createButton("Draw Mode").parent('ui-panel').class('btn').mousePressed(() => setMode('draw'));
+  createButton("Heightmap Mode").parent('ui-panel').class('btn').mousePressed(() => setMode('heightmap'));
+  createButton("Blend Terrain").parent('ui-panel').class('btn').mousePressed(blendTerrain);
+  createButton("View in 3D").parent('ui-panel').class('btn btn-primary').mousePressed(viewIn3D);
 }
 
 function draw() {

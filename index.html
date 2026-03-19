@@ -2,42 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Sketch to Terrain</title>
+    <title>Procedural Terrain Mapper</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Our New Style -->
+    <link rel="stylesheet" href="/src/style.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <script type="module" src="/src/sketch.js"></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-        padding: 10px;
-      }
-      canvas {
-        border: 1px solid #aaa;
-      }
-      #controls button, #controls input {
-        margin: 4px;
-      }
-    </style>
   </head>
   <body>
-    <h2>Sketch Your Terrain</h2>
-    <div id="controls">
-      <!-- <button onclick="setBrush('water')">Water</button>
-      <button onclick="setBrush('grass')">Grass</button>
-      <button onclick="setBrush('hill')">Hill</button>
-      <button onclick="setBrush('mountain')">Mountain</button>
-      <button onclick="blendTerrain()">Blend Terrain</button>
-      <button onclick="setMode('draw')">Draw Mode</button>
-      <button onclick="setMode('heightmap')">Heightmap Mode</button>
-      <button onclick="saveHeightmapAsImage()">Save Heightmap</button>
-      <button onclick="viewIn3D()">View in 3D</button>
-      <br> -->
-      <!-- <label>Brush Size: </label><input type="range" min="1" max="10" value="2" id="brushSlider" /> -->
+    <div class="app-wrapper">
+      <header class="app-header">
+        <h1>Procedural Terrain Mapper</h1>
+        <p>Interactive tool to sketch topographical maps and visualize in 3D</p>
+      </header>
+      <div id="container" class="main-container">
+        <div id="canvas-holder"></div>
+        <div id="ui-panel" class="ui-panel glass-panel">
+          <!-- p5 DOM elements will be appended here -->
+        </div>
+      </div>
     </div>
-    <div id="container" style="display: flex;">
-      <div id="canvas-holder"></div>
-      <div id="ui-panel" style="margin-left: 20px;"></div>
-    </div>
-    
   </body>
 </html>
