@@ -208,5 +208,10 @@ function viewIn3D() {
   gfx.image(img, 0, 0);
   let dataURL = gfx.canvas.toDataURL();
   localStorage.setItem('terrain-heightmap', dataURL);
-  window.open('/terrain.html', '_blank');
+  window.open('terrain.html', '_blank');
 }
+
+// Make p5.js functions global so Rollup doesn't tree-shake them and p5 can find them
+window.setup = setup;
+window.draw = draw;
+window.mouseDragged = mouseDragged;
